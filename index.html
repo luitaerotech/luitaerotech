@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luit Aerotech — Smart Agriculture Drones for Assam</title>
+<meta name="description" content="Agriculture drone spraying and crop health monitoring across Assam. DGCA-compliant, built for Northeast India.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1a1d1a;
+    --ink-soft:#5b635c;
+    --line:#e7e9e6;
+    --line-soft:#f0f2ef;
+    --bg:#ffffff;
+    --bg-tint:#f7f9f6;
+    --green:#1f7a3d;
+    --green-deep:#155c2d;
+    --green-tint:#eef6f0;
+    --radius:16px;
+    --max:1120px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+  body{
+    font-family:'Inter',-apple-system,system-ui,sans-serif;
+    color:var(--ink);background:var(--bg);
+    line-height:1.6;-webkit-font-smoothing:antialiased;
+    letter-spacing:-.01em;
+  }
+  h1,h2,h3,h4{line-height:1.12;letter-spacing:-.025em;font-weight:600}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 28px}
+
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:500;
+    padding:12px 22px;border-radius:100px;transition:background .18s,color .18s,border-color .18s;
+    cursor:pointer;border:1px solid transparent;white-space:nowrap;
+  }
+  .btn-primary{background:var(--green);color:#fff}
+  .btn-primary:hover{background:var(--green-deep)}
+  .btn-secondary{background:#fff;color:var(--ink);border-color:var(--line)}
+  .btn-secondary:hover{border-color:#c8ccc7;background:var(--bg-tint)}
+
+  header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.82);backdrop-filter:blur(18px);border-bottom:1px solid transparent;transition:border-color .25s}
+  header.scrolled{border-color:var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px;max-width:var(--max);margin:0 auto;padding:0 28px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:600;font-size:18px;letter-spacing:-.02em}
+  .brand .mark{width:30px;height:30px;border-radius:8px;background:var(--green);display:grid;place-items:center;flex-shrink:0}
+  .brand .mark svg{width:17px;height:17px}
+  .navlinks{display:flex;align-items:center;gap:4px}
+  .navlinks a.lnk{font-size:15px;color:var(--ink-soft);font-weight:500;padding:8px 14px;border-radius:8px;transition:color .15s,background .15s}
+  .navlinks a.lnk:hover{color:var(--ink);background:var(--bg-tint)}
+  .nav-cta{display:flex;align-items:center;gap:8px;margin-left:12px}
+  .menu-btn{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px;padding:6px}
+  .menu-btn span{width:22px;height:2px;background:var(--ink);border-radius:2px;transition:.25s}
+
+  .hero{padding:96px 0 84px;text-align:center}
+  .pill{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--green-deep);background:var(--green-tint);padding:6px 14px;border-radius:100px;margin-bottom:28px}
+  .pill .dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+  .hero h1{font-size:clamp(40px,6.4vw,72px);font-weight:800;max-width:880px;margin:0 auto;letter-spacing:-.04em}
+  .hero h1 em{font-style:normal;color:var(--green)}
+  .hero p{font-size:clamp(17px,2.2vw,20px);color:var(--ink-soft);max-width:600px;margin:26px auto 0;font-weight:400}
+  .hero-cta{display:flex;gap:12px;justify-content:center;margin-top:38px;flex-wrap:wrap}
+
+  .hero-visual{margin:64px auto 0;max-width:960px;position:relative}
+  .canvas{border-radius:24px;background:linear-gradient(180deg,#eef5ef 0%,#e4efe6 100%);border:1px solid var(--line);aspect-ratio:16/8;position:relative;overflow:hidden}
+  .canvas svg.fields{position:absolute;inset:0;width:100%;height:100%}
+  .canvas .drone{position:absolute;top:24%;left:50%;transform:translateX(-50%);width:96px;animation:float 6s ease-in-out infinite}
+  @keyframes float{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-12px)}}
+  .canvas .drone .blade{transform-origin:center;animation:rot .1s linear infinite}
+  @keyframes rot{to{transform:rotate(360deg)}}
+  .float-stat{position:absolute;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 18px;box-shadow:0 8px 30px rgba(26,29,26,.08);display:flex;align-items:center;gap:12px}
+  .float-stat .fs-ico{width:34px;height:34px;border-radius:9px;background:var(--green-tint);display:grid;place-items:center;flex-shrink:0}
+  .float-stat .fs-ico svg{width:18px;height:18px;stroke:var(--green)}
+  .float-stat b{font-size:18px;font-weight:600;display:block;line-height:1.1}
+  .float-stat span{font-size:12px;color:var(--ink-soft)}
+  .fs-1{top:16%;left:-2%;animation:floatA 6s ease-in-out infinite}
+  .fs-2{bottom:14%;right:-2%;animation:floatA 6s ease-in-out .8s infinite}
+  @keyframes floatA{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+  @media(max-width:640px){.fs-1,.fs-2{display:none}}
+
+  .hero-stats{display:flex;justify-content:center;flex-wrap:wrap;gap:0;margin:44px auto 0;max-width:940px;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:#fff}
+  .hero-stats .hs{flex:1 1 0;min-width:120px;padding:30px 18px;text-align:center;border-left:1px solid var(--line-soft)}
+  .hero-stats .hs:first-child{border-left:none}
+  .hero-stats .hs b{font-size:clamp(34px,4.4vw,48px);font-weight:800;letter-spacing:-.045em;color:var(--green);display:block;line-height:.95}
+  .hero-stats .hs span{font-size:13px;color:var(--ink-soft);margin-top:10px;display:block;font-weight:600;line-height:1.3;letter-spacing:0}
+  @media(max-width:680px){
+    .hero-stats .hs{flex:1 1 33%;min-width:0;padding:24px 12px}
+    .hero-stats .hs:nth-child(4),.hero-stats .hs:nth-child(5){border-top:1px solid var(--line-soft)}
+    .hero-stats .hs:nth-child(4){border-left:none}
+  }
+
+  .trust{padding:48px 0;border-top:1px solid var(--line-soft);border-bottom:1px solid var(--line-soft)}
+  .trust p{text-align:center;font-size:13px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:26px}
+  .trust-row{display:flex;justify-content:center;gap:18px;flex-wrap:wrap}
+  .trust-row .chip{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:500;color:var(--ink);padding:10px 18px;border:1px solid var(--line);border-radius:100px}
+  .trust-row .chip svg{width:16px;height:16px;stroke:var(--green)}
+
+  section{padding:104px 0}
+  .sec-head{max-width:680px;margin:0 auto 64px;text-align:center}
+  .sec-head .eyebrow{font-size:14px;font-weight:600;color:var(--green);margin-bottom:14px;display:block}
+  .sec-head h2{font-size:clamp(30px,4.2vw,44px);font-weight:700;letter-spacing:-.03em}
+  .sec-head p{font-size:18px;color:var(--ink-soft);margin-top:16px}
+
+  .svc-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .svc{border:1px solid var(--line);border-radius:var(--radius);padding:40px;background:#fff;transition:border-color .2s,box-shadow .2s}
+  .svc:hover{border-color:#d4d8d2;box-shadow:0 12px 40px rgba(26,29,26,.06)}
+  .svc .ico{width:48px;height:48px;border-radius:12px;background:var(--green-tint);display:grid;place-items:center;margin-bottom:24px}
+  .svc .ico svg{width:24px;height:24px;stroke:var(--green)}
+  .svc h3{font-size:23px;margin-bottom:12px}
+  .svc p{color:var(--ink-soft);font-size:15.5px}
+  .svc ul{list-style:none;margin-top:22px;display:flex;flex-direction:column;gap:11px}
+  .svc li{display:flex;align-items:center;gap:11px;font-size:14.5px;color:var(--ink)}
+  .svc li svg{width:17px;height:17px;stroke:var(--green);flex-shrink:0}
+
+  .metrics{background:var(--bg-tint)}
+  .metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+  .metric{text-align:center;padding:8px}
+  .metric b{font-size:clamp(44px,5.4vw,62px);font-weight:800;letter-spacing:-.05em;color:var(--green);display:block;line-height:.95}
+  .metric span{font-size:15px;color:var(--ink-soft);margin-top:10px;display:block;font-weight:500}
+  .metric small{font-size:13px;color:#9aa39b;display:block;margin-top:2px}
+
+  .ch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .ch{border:1px solid var(--line);border-radius:var(--radius);padding:34px}
+  .ch .ch-ico{width:44px;height:44px;border-radius:11px;background:var(--bg-tint);display:grid;place-items:center;margin-bottom:22px}
+  .ch .ch-ico svg{width:22px;height:22px;stroke:var(--ink)}
+  .ch h3{font-size:19px;margin-bottom:10px}
+  .ch p{color:var(--ink-soft);font-size:15px}
+  .ch .note{margin-top:16px;font-size:13.5px;font-weight:600;color:var(--green-deep)}
+
+  .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 64px}
+  .why{display:flex;gap:20px;padding:28px 0;border-top:1px solid var(--line)}
+  .why .w-ico{width:44px;height:44px;border-radius:11px;background:var(--green-tint);display:grid;place-items:center;flex-shrink:0}
+  .why .w-ico svg{width:22px;height:22px;stroke:var(--green)}
+  .why h3{font-size:18px;margin-bottom:7px}
+  .why p{font-size:15px;color:var(--ink-soft)}
+
+  .coverage{background:var(--bg-tint)}
+  .cov-wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+  .cov-block{margin-bottom:34px}
+  .cov-block h4{font-size:14px;font-weight:600;color:var(--ink);margin-bottom:16px;display:flex;align-items:center;gap:9px}
+  .cov-block h4 .dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+  .cov-block h4 .dot.exp{background:#c8cdc6}
+  .tags{display:flex;flex-wrap:wrap;gap:9px}
+  .tags span{font-size:14px;padding:7px 15px;border-radius:100px;background:#fff;border:1px solid var(--line);color:var(--ink)}
+  .tags.exp span{color:var(--ink-soft)}
+  .cov-special{display:flex;flex-direction:column;gap:16px}
+  .csp{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+  .csp h5{font-size:17px;font-weight:600;margin-bottom:9px}
+  .csp p{font-size:14.5px;color:var(--ink-soft)}
+
+  .cta-band{padding:96px 0}
+  .cta-inner{background:var(--green);border-radius:28px;padding:72px 48px;text-align:center;color:#fff;position:relative;overflow:hidden}
+  .cta-inner svg.bg{position:absolute;inset:0;width:100%;height:100%;opacity:.13}
+  .cta-inner h2{font-size:clamp(30px,4.5vw,46px);font-weight:700;letter-spacing:-.03em;max-width:680px;margin:0 auto;position:relative}
+  .cta-inner p{font-size:18px;opacity:.9;max-width:520px;margin:18px auto 0;position:relative}
+  .cta-inner .hero-cta{margin-top:34px;position:relative}
+  .cta-inner .btn-primary{background:#fff;color:var(--green-deep)}
+  .cta-inner .btn-primary:hover{background:#f0f2ef}
+  .cta-inner .btn-secondary{background:transparent;color:#fff;border-color:rgba(255,255,255,.4)}
+  .cta-inner .btn-secondary:hover{background:rgba(255,255,255,.12);border-color:#fff}
+
+  .contact-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:64px;align-items:start}
+  .contact-info{display:flex;flex-direction:column}
+  .ci{display:flex;gap:16px;align-items:flex-start;padding:20px 0;border-top:1px solid var(--line)}
+  .ci:first-of-type{border-top:none;padding-top:0}
+  .ci .ci-ico{width:42px;height:42px;border-radius:11px;background:var(--green-tint);display:grid;place-items:center;flex-shrink:0}
+  .ci .ci-ico svg{width:20px;height:20px;stroke:var(--green)}
+  .ci b{font-size:15px;display:block;margin-bottom:3px}
+  .ci span{font-size:14.5px;color:var(--ink-soft)}
+  form{background:#fff;border:1px solid var(--line);border-radius:20px;padding:36px;display:grid;gap:18px}
+  .f-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  form label{font-size:13.5px;font-weight:500;color:var(--ink);display:block;margin-bottom:7px}
+  form input,form select,form textarea{width:100%;padding:12px 15px;border-radius:10px;border:1px solid var(--line);background:#fff;font-family:inherit;font-size:15px;color:var(--ink);transition:border-color .15s}
+  form input:focus,form select:focus,form textarea:focus{outline:none;border-color:var(--green)}
+  form input::placeholder,form textarea::placeholder{color:#a8b0a8}
+  form .btn{width:100%;justify-content:center}
+  .f-note{font-size:13px;color:var(--ink-soft);text-align:center}
+
+  footer{border-top:1px solid var(--line);padding:64px 0 36px}
+  .foot-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:40px;padding-bottom:44px}
+  .foot-brand p{font-size:14.5px;color:var(--ink-soft);margin-top:16px;max-width:280px}
+  .foot-col h6{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:16px}
+  .foot-col a{display:block;font-size:14.5px;color:var(--ink-soft);margin-bottom:11px;transition:color .15s}
+  .foot-col a:hover{color:var(--green)}
+  .foot-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding-top:28px;border-top:1px solid var(--line);font-size:13.5px;color:var(--ink-soft)}
+
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:860px){
+    .navlinks{position:fixed;inset:68px 0 auto;flex-direction:column;align-items:stretch;background:#fff;border-bottom:1px solid var(--line);padding:16px;gap:4px;transform:translateY(-130%);transition:transform .3s;box-shadow:0 20px 40px rgba(26,29,26,.08)}
+    .navlinks.open{transform:none}
+    .navlinks a.lnk{padding:13px 14px;font-size:16px}
+    .nav-cta{margin:8px 0 0;flex-direction:column;align-items:stretch}
+    .nav-cta .btn{width:100%;justify-content:center}
+    .menu-btn{display:flex}
+    .svc-grid,.metric-grid,.ch-grid,.why-grid,.cov-wrap,.contact-grid,.foot-top{grid-template-columns:1fr}
+    .metric-grid{grid-template-columns:1fr 1fr;gap:36px 24px}
+    .why-grid{gap:0}
+    .foot-top{gap:32px}
+  }
+  @media(max-width:520px){
+    section{padding:72px 0}
+    .f-row{grid-template-columns:1fr}
+    .cta-inner{padding:52px 28px}
+  }
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<header id="hdr">
+  <nav class="nav">
+    <a href="#top" class="brand">
+      <span class="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v5m0 0L8 5.5M12 8l4-2.5M12 21v-5m0 0l-4 2.5M12 16l4 2.5M3 12h5m0 0L5.5 8M8 12l-2.5 4M21 12h-5m0 0l2.5-4M16 12l2.5 4" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="12" r="2" fill="#fff"/></svg></span>
+      Luit Aerotech
+    </a>
+    <div class="navlinks" id="navlinks">
+      <a href="#services" class="lnk">Services</a>
+      <a href="#why" class="lnk">Why us</a>
+      <a href="#coverage" class="lnk">Coverage</a>
+      <a href="#farmers" class="lnk">For farmers</a>
+      <div class="nav-cta">
+        <a href="tel:+919435644902" class="btn btn-secondary">Call us</a>
+        <a href="#contact" class="btn btn-primary">Book a demo</a>
+      </div>
+    </div>
+    <button class="menu-btn" id="menuBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+</header>
+
+<section class="hero" id="top">
+  <div class="wrap">
+    <span class="pill"><span class="dot"></span>Northeast India · DGCA-compliant operations</span>
+    <h1>Smart agriculture, <em>built for Assam.</em></h1>
+    <p>Precision drone spraying and crop health monitoring that saves water, cuts costs, and covers more ground — without the labour scramble.</p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn btn-primary">Book a free demo</a>
+      <a href="#services" class="btn btn-secondary">Explore services</a>
+    </div>
+    <div class="hero-visual">
+      <div class="canvas">
+        <svg class="fields" viewBox="0 0 960 480" preserveAspectRatio="xMidYMid slice" fill="none">
+          <path d="M0 340 Q240 300 480 330 T960 320" stroke="#bcd6c2" stroke-width="2"/>
+          <path d="M0 380 Q240 340 480 370 T960 360" stroke="#bcd6c2" stroke-width="2"/>
+          <path d="M0 420 Q240 380 480 410 T960 400" stroke="#bcd6c2" stroke-width="2"/>
+          <path d="M0 460 Q240 420 480 450 T960 440" stroke="#bcd6c2" stroke-width="2"/>
+        </svg>
+        <div class="drone">
+          <svg viewBox="0 0 200 130" fill="none">
+            <line x1="100" y1="74" x2="44" y2="40" stroke="#2c322d" stroke-width="5" stroke-linecap="round"/>
+            <line x1="100" y1="74" x2="156" y2="40" stroke="#2c322d" stroke-width="5" stroke-linecap="round"/>
+            <line x1="100" y1="74" x2="44" y2="108" stroke="#2c322d" stroke-width="5" stroke-linecap="round"/>
+            <line x1="100" y1="74" x2="156" y2="108" stroke="#2c322d" stroke-width="5" stroke-linecap="round"/>
+            <rect x="80" y="60" width="40" height="28" rx="8" fill="#1f7a3d"/>
+            <g class="blade" style="transform-origin:44px 40px"><ellipse cx="44" cy="40" rx="22" ry="4" fill="#2c322d" opacity=".35"/></g>
+            <g class="blade" style="transform-origin:156px 40px"><ellipse cx="156" cy="40" rx="22" ry="4" fill="#2c322d" opacity=".35"/></g>
+            <g class="blade" style="transform-origin:44px 108px"><ellipse cx="44" cy="108" rx="22" ry="4" fill="#2c322d" opacity=".35"/></g>
+            <g class="blade" style="transform-origin:156px 108px"><ellipse cx="156" cy="108" rx="22" ry="4" fill="#2c322d" opacity=".35"/></g>
+          </svg>
+        </div>
+        <div class="float-stat fs-1">
+          <span class="fs-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+          <div><b>5 min</b><span>Per acre</span></div>
+        </div>
+        <div class="float-stat fs-2">
+          <span class="fs-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7z"/></svg></span>
+          <div><b>8&times;</b><span>Productivity</span></div>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="hs"><b>5 min</b><span>Per acre</span></div>
+        <div class="hs"><b>40%</b><span>Input saving</span></div>
+        <div class="hs"><b>8&times;</b><span>Productivity</span></div>
+        <div class="hs"><b>DGCA</b><span>Certified</span></div>
+        <div class="hs"><b>0</b><span>Human exposure</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trust">
+  <div class="wrap">
+    <p>Trusted approach for farms, tea estates &amp; government projects</p>
+    <div class="trust-row">
+      <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/><path d="M8 12l3 3 5-6"/></svg>DGCA Certified Pilots</div>
+      <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6z"/></svg>NPNT Approved</div>
+      <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-5 7 5v13"/></svg>Government Ready</div>
+      <div class="chip"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2s6 6 6 11a6 6 0 01-12 0c0-5 6-11 6-11z"/></svg>Built for NE Terrain</div>
+    </div>
+  </div>
+</div>
+
+<section id="services">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Services</span>
+      <h2>Two services. One healthier harvest.</h2>
+      <p>Calibrated for Northeast India's terrain — from tea canopies to flood-plain paddy.</p>
+    </div>
+    <div class="svc-grid">
+      <div class="svc reveal">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M6 9l3 2M18 9l-3 2M8 11h8l-1 4H9z"/><circle cx="8" cy="20" r="1"/><circle cx="12" cy="21" r="1"/><circle cx="16" cy="20" r="1"/></svg></span>
+        <h3>Agriculture drone spraying</h3>
+        <p>GPS-guided pesticide and fertiliser application — precise targeting and even coverage, every flight. Protects your workers and saves up to 90% water.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Paddy, tea &amp; vegetable crops</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>5 minutes per acre, no human exposure</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>GPS equidistribution</li>
+        </ul>
+      </div>
+      <div class="svc reveal">
+        <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 3 5-7"/></svg></span>
+        <h3>Crop health monitoring</h3>
+        <p>Multispectral imaging spots crop stress, disease and nutrient gaps early — before they're visible to the eye. You get clear maps and reports you can act on.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>NDVI crop health maps</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Orthomosaics &amp; 3D elevation models</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Actionable technical reports</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="metrics">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Why drones</span>
+      <h2>A modern solution for farmers.</h2>
+      <p>Advanced sensors and GPS make every spray precise and even — measurably better than manual.</p>
+    </div>
+    <div class="metric-grid reveal">
+      <div class="metric"><b>90%</b><span>Water saving</span></div>
+      <div class="metric"><b>40%</b><span>Input saving</span></div>
+      <div class="metric"><b>20%</b><span>Cost saving</span></div>
+      <div class="metric"><b>8&times;</b><span>Productivity</span><small>vs manual labour</small></div>
+    </div>
+  </div>
+</section>
+
+<section id="farmers">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">The challenge</span>
+      <h2>Struggling with spray season?</h2>
+      <p>Every farmer faces these during peak season. Sound familiar?</p>
+    </div>
+    <div class="ch-grid">
+      <div class="ch reveal">
+        <span class="ch-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 21v-1a6 6 0 0112 0v1M16 7h5M18.5 4.5v5"/></svg></span>
+        <h3>Can't find workers</h3>
+        <p>Peak season means everyone needs labour at once. You compete with 100 farmers for 20 available labourers.</p>
+      </div>
+      <div class="ch reveal">
+        <span class="ch-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></span>
+        <h3>Rising labour costs</h3>
+        <p>Costs have doubled in three years, eating into your margins with no end in sight — when labour is available at all.</p>
+        <div class="note">&#8377;450&ndash;500 per acre, manual</div>
+      </div>
+      <div class="ch reveal">
+        <span class="ch-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+        <h3>Timing matters</h3>
+        <p>Rain forecasts and pest attacks mean every day counts. Delays cause crop damage &mdash; "kal" too often never comes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="why" class="metrics">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Why choose us</span>
+      <h2>Built for the Northeast.</h2>
+      <p>Local terrain knowledge, certified operations, and intelligence you can act on.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why reveal">
+        <span class="w-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.5-7-11a7 7 0 0114 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+        <div><h3>Operations in Assam</h3><p>Primary hub in Guwahati &mdash; the central deployment point for the entire Northeast region.</p></div>
+      </div>
+      <div class="why reveal">
+        <span class="w-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v12H4z"/><path d="M4 21h16M9 9l2 2 4-4"/></svg></span>
+        <div><h3>Built for NE terrain</h3><p>Deep understanding of Brahmaputra flood plains, tea gardens, forests, and hill terrain.</p></div>
+      </div>
+      <div class="why reveal">
+        <span class="w-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/><path d="M8 12l3 3 5-6"/></svg></span>
+        <div><h3>DGCA-compliant operations</h3><p>Certified pilots, compliant UAS hardware, and strict NPNT approvals and flight-zone adherence.</p></div>
+      </div>
+      <div class="why reveal">
+        <span class="w-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V8l7-5 7 5v13M9 21v-6h6v6"/></svg></span>
+        <div><h3>Government &amp; enterprise ready</h3><p>Track record with state agencies and large enterprises for precision infrastructure and agriculture.</p></div>
+      </div>
+      <div class="why reveal">
+        <span class="w-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 3 5-7"/></svg></span>
+        <div><h3>Data, not just footage</h3><p>Orthomosaics, NDVI maps, 3D elevation models, and technical reports &mdash; intelligence you can use.</p></div>
+      </div>
+      <div class="why reveal">
+        <span class="w-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 000 18M12 3a14 14 0 010 18"/></svg></span>
+        <div><h3>All of Assam, one team</h3><p>Expanding across all 35 districts, with priority in agricultural and industrial belts.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="coverage" class="coverage">
+  <div class="wrap">
+    <div class="cov-wrap">
+      <div class="reveal">
+        <span class="eyebrow" style="font-size:14px;font-weight:600;color:var(--green);display:block;margin-bottom:14px">Coverage</span>
+        <h2 style="font-size:clamp(28px,4vw,40px);font-weight:700;letter-spacing:-.03em;margin-bottom:14px">Serving all of Assam.</h2>
+        <p style="font-size:17px;color:var(--ink-soft);margin-bottom:34px">Starting from Central Assam and expanding across all 35 districts, with priority in agricultural and industrial belts.</p>
+        <div class="cov-block">
+          <h4><span class="dot"></span>Active hubs</h4>
+          <div class="tags">
+            <span>Kamrup Metro</span><span>Dibrugarh</span><span>Tinsukia</span>
+            <span>Morigaon</span><span>Lakhimpur</span><span>Dhubri</span>
+          </div>
+        </div>
+        <div class="cov-block">
+          <h4><span class="dot exp"></span>Expanding operations</h4>
+          <div class="tags exp">
+            <span>Kamrup</span><span>Jorhat</span><span>Bongaigaon</span><span>Nalbari</span>
+            <span>Karimganj</span><span>Kokrajhar</span><span>Nagaon</span><span>Sibsagar</span>
+            <span>Goalpara</span><span>Sonitpur</span><span>Cachar</span><span>Hailakandi</span>
+          </div>
+        </div>
+      </div>
+      <div class="cov-special reveal">
+        <div class="csp">
+          <h5>Tea garden operations</h5>
+          <p>Specialised low-altitude spray patterns for sloped terrain and high-density tea canopies across Upper Assam and Cachar.</p>
+        </div>
+        <div class="csp">
+          <h5>Paddy &amp; flood-plain farming</h5>
+          <p>Large-scale coverage for monsoon-season broadcasting and real-time flood damage mapping in the Brahmaputra valley.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <div class="wrap">
+    <div class="cta-inner reveal">
+      <svg class="bg" viewBox="0 0 1120 360" preserveAspectRatio="xMidYMid slice" fill="none">
+        <path d="M0 220 Q280 180 560 210 T1120 200" stroke="#fff" stroke-width="2"/>
+        <path d="M0 270 Q280 230 560 260 T1120 250" stroke="#fff" stroke-width="2"/>
+        <path d="M0 320 Q280 280 560 310 T1120 300" stroke="#fff" stroke-width="2"/>
+      </svg>
+      <h2>Spray smarter this season.</h2>
+      <p>Book a free demonstration on your field and see precision drone spraying in action.</p>
+      <div class="hero-cta">
+        <a href="#contact" class="btn btn-primary">Book a free demo</a>
+        <a href="tel:+919435644902" class="btn btn-secondary">Call +91 94356 44902</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div class="reveal">
+        <span class="eyebrow" style="font-size:14px;font-weight:600;color:var(--green);display:block;margin-bottom:14px">Contact</span>
+        <h2 style="font-size:clamp(28px,4vw,40px);font-weight:700;letter-spacing:-.03em;margin-bottom:14px">Let's talk drones.</h2>
+        <p style="font-size:17px;color:var(--ink-soft);margin-bottom:36px">Tell us your requirement and we'll design the right solution &mdash; whether you're a farmer, an FPO, a tea estate, or a government body.</p>
+        <div class="contact-info">
+          <div class="ci">
+            <span class="ci-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012 4.2 2 2 0 014 2h3a2 2 0 012 1.7c.1 1 .4 1.9.7 2.8a2 2 0 01-.5 2.1L8.1 9.9a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.4c.9.3 1.8.6 2.8.7A2 2 0 0122 16.9z"/></svg></span>
+            <div><b>Call / WhatsApp</b><span>+91 94356 44902</span></div>
+          </div>
+          <div class="ci">
+            <span class="ci-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v14H4z"/><path d="M4 7l8 6 8-6"/></svg></span>
+            <div><b>Email</b><span>info@luitaerotech.com</span></div>
+          </div>
+          <div class="ci">
+            <span class="ci-ico"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.5-7-11a7 7 0 0114 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span>
+            <div><b>Mission control</b><span>Guwahati, Assam &ndash; 781015<br>Lakhimpur, Assam &ndash; 784161</span></div>
+          </div>
+        </div>
+      </div>
+      <form id="enquiry" class="reveal">
+        <div class="f-row">
+          <div><label>First name *</label><input type="text" placeholder="Your name" required></div>
+          <div><label>Last name</label><input type="text" placeholder="Surname"></div>
+        </div>
+        <div class="f-row">
+          <div><label>Phone *</label><input type="tel" placeholder="+91 ..." required></div>
+          <div><label>District</label><input type="text" placeholder="e.g. Lakhimpur"></div>
+        </div>
+        <div><label>Service *</label>
+          <select required>
+            <option value="">Select a service</option>
+            <option>Agriculture drone spraying</option>
+            <option>Crop health monitoring (NDVI)</option>
+            <option>Both services</option>
+            <option>Government / enterprise project</option>
+          </select>
+        </div>
+        <div><label>Message</label><textarea rows="3" placeholder="Crop type, field size in acres or bigha, timing..."></textarea></div>
+        <button type="submit" class="btn btn-primary">Submit enquiry</button>
+        <p class="f-note" id="fNote">We'll get back to you within 24 hours.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="#top" class="brand"><span class="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3v5m0 0L8 5.5M12 8l4-2.5M12 21v-5m0 0l-4 2.5M12 16l4 2.5M3 12h5m0 0L5.5 8M8 12l-2.5 4M21 12h-5m0 0l2.5-4M16 12l2.5 4" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="12" r="2" fill="#fff"/></svg></span>Luit Aerotech</a>
+        <p>Empowering sustainable farming through smart agriculture across Assam and Northeast India.</p>
+      </div>
+      <div class="foot-col">
+        <h6>Services</h6>
+        <a href="#services">Drone spraying</a>
+        <a href="#services">Crop monitoring</a>
+        <a href="#coverage">Tea gardens</a>
+        <a href="#coverage">Paddy &amp; flood plains</a>
+      </div>
+      <div class="foot-col">
+        <h6>Company</h6>
+        <a href="#why">Why us</a>
+        <a href="#coverage">Coverage</a>
+        <a href="#contact">Contact</a>
+        <a href="#contact">Book a demo</a>
+      </div>
+      <div class="foot-col">
+        <h6>Compliance</h6>
+        <a href="#why">DGCA certified</a>
+        <a href="#why">NPNT approved</a>
+        <a href="tel:+919435644902">+91 94356 44902</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>&copy; 2026 Luit Aerotech. All rights reserved.</span>
+      <span>Guwahati, Assam &middot; Northeast India</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const hdr=document.getElementById('hdr');
+  window.addEventListener('scroll',()=>hdr.classList.toggle('scrolled',window.scrollY>8));
+  const mb=document.getElementById('menuBtn'),nl=document.getElementById('navlinks');
+  mb.addEventListener('click',()=>nl.classList.toggle('open'));
+  nl.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nl.classList.remove('open')));
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  document.getElementById('enquiry').addEventListener('submit',function(e){
+    e.preventDefault();
+    const n=document.getElementById('fNote');
+    n.textContent='\u2713 Thank you \u2014 we will contact you within 24 hours.';
+    n.style.color='#1f7a3d';this.reset();
+  });
+</script>
+</body>
+</html>
