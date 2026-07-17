@@ -12,10 +12,9 @@ Rules and conventions for working in this repo.
 ## Stack
 
 - TanStack Start (SSR, file-based routing) + React 19 + TypeScript, on Vite 7.
-- Tailwind CSS 4 is wired in globally (`src/styles.css`, imported in `src/routes/__root.tsx`), but the
-  marketing site (see below) uses its own plain CSS instead of Tailwind utility classes.
-- Appwrite (`src/lib/appwrite.ts`) provides `client` / `account` / `databases`, configured from
-  `VITE_APPWRITE_*` env vars (`.env`, see `.env.example`). `.env` is gitignored — never commit it.
+- No Tailwind, no Appwrite client SDK, no devtools. This app is intentionally minimal: it exists to
+  serve exactly two static-content marketing pages. Do not reintroduce any of that tooling to solve
+  a problem these two pages don't have — see "Guiding principles" above.
 - Biome (not ESLint/Prettier) handles linting and formatting: `npm run lint`, `npm run format`,
   `npm run check`.
 
@@ -25,11 +24,9 @@ Rules and conventions for working in this repo.
 - `src/routeTree.gen.ts` is **generated** by the TanStack Router Vite plugin on `dev`/`build`.
   Never hand-edit it — it gets overwritten. If routes look stale, run `npm run build` (or start the
   dev server) to regenerate it.
-- Current routes:
-  - `/` (`src/routes/index.tsx`) — Luit Aerotech marketing homepage.
-  - `/services` (`src/routes/services.tsx`) — Luit Aerotech service catalogue detail page.
-  - `/demo` (`src/routes/demo.tsx`) — the original TanStack Start + Appwrite "ping" scaffold demo,
-    kept around as a connectivity check; not linked from the marketing nav.
+- The only routes: `/` (`src/routes/index.tsx`) and `/services` (`src/routes/services.tsx`) — the
+  Luit Aerotech homepage and service catalogue. There is no `/demo` or any other route; the original
+  TanStack Start + Appwrite scaffold demo was removed since this site only needs these two pages.
 - Per-route `head()` (title/meta/link tags) overrides/merges with `src/routes/__root.tsx`'s root head.
   Give every new top-level route its own `title` and `description` meta.
 
@@ -40,9 +37,8 @@ Rules and conventions for working in this repo.
 - Shared UI lives in `src/components/marketing/` (`SiteHeader`, `SiteFooter`) and
   `src/hooks/useScrollReveal.ts` (recreates the original scroll-reveal IntersectionObserver behavior).
 - Styling is `src/styles/marketing.css`, loaded per-route via `?url` import + a `<link>` in that
-  route's `head()` — it is **not** imported globally, so it never leaks into `/demo` or other
-  non-marketing routes. Every selector in that file is scoped under a `.marketing` root class; wrap
-  any new marketing page content in `<div className="marketing">`.
+  route's `head()`. Every selector in that file is scoped under a `.marketing` root class; wrap any
+  new marketing page content in `<div className="marketing">`.
 - The `useUniqueElementIds` Biome rule is turned off project-wide (`biome.json`) because this site
   relies on static `id`s for anchor navigation (`#services`, `#roadmap`, `#enquiry`, etc.) and
   `label htmlFor` pairing in the enquiry form — both are legitimate uses Biome otherwise flags.
