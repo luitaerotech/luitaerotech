@@ -49,6 +49,20 @@ Rules and conventions for working in this repo.
 - The brand logo lives at `public/luit-logo.png` (extracted from an inline base64 data URI in the
   original HTML) and doubles as the favicon.
 
+## Deployment (Appwrite Sites)
+
+- This app is hosted on **Appwrite Sites**, connected to `origin` on GitHub. Pushing to `main`
+  triggers a build/deploy there.
+- `vite.config.ts` includes `nitroV2Plugin({ preset: 'node-server' })` (from
+  `@tanstack/nitro-v2-vite-plugin`) **on purpose** — do not remove it. TanStack Start 1.132+ dropped
+  Nitro by default and builds a Vite-native `dist/client` + `dist/server` bundle instead. Appwrite
+  Sites' TanStack Start runtime, however, expects the older Nitro output shape
+  (`.output/server/index.mjs`) — without this plugin, Appwrite's build step fails with
+  `cd: ./.output: No such file or directory`. Verify after any Vite/TanStack upgrade by running
+  `npm run build` and confirming `.output/server/index.mjs` exists (not just `dist/`).
+- Appwrite Site build settings: install `npm install`, build `npm run build`, output directory
+  `./.output`.
+
 ## General
 
 - Don't hand-edit generated files (`src/routeTree.gen.ts`).
